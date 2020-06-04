@@ -14,7 +14,7 @@ MMSR is an open source image and video super-resolution toolbox based on PyTorch
 ## Dependencies and Installation
 
 - Python 3 (Recommend to use [Anaconda](https://www.anaconda.com/download))
-- [PyTorch >= 1.1](https://pytorch.org)
+- [PyTorch >= 1.5](https://pytorch.org)
 - NVIDIA GPU + [CUDA](https://developer.nvidia.com/cuda-downloads)
 - [Deformable Convolution](https://arxiv.org/abs/1703.06211). We use [mmdetection](https://github.com/open-mmlab/mmdetection)'s dcn implementation. Please first compile it.
   ```
