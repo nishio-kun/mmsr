@@ -6,10 +6,10 @@ mkdir DIV2K
 cd DIV2K
 
 #### Step 1
-echo "Step 1: Download the datasets: [DIV2K_train_HR] and [DIV2K_train_LR_bicubic_X4]..."
+echo "Step 1: Download the datasets: [DIV2K_valid_HR] and [DIV2K_valid_LR_bicubic_X4]..."
 # GT
-FOLDER=DIV2K_train_HR
-FILE=DIV2K_train_HR.zip
+FOLDER=DIV2K_valid_HR
+FILE=DIV2K_valid_HR.zip
 if [ ! -d "$FOLDER" ]; then
     if [ ! -f "$FILE" ]; then
         echo "Downloading $FILE..."
@@ -18,8 +18,8 @@ if [ ! -d "$FOLDER" ]; then
     unzip $FILE
 fi
 # LR
-FOLDER=DIV2K_train_LR_bicubic
-FILE=DIV2K_train_LR_bicubic_X4.zip
+FOLDER=DIV2K_valid_LR_bicubic
+FILE=DIV2K_valid_LR_bicubic_X4.zip
 if [ ! -d "$FOLDER" ]; then
     if [ ! -f "$FILE" ]; then
         echo "Downloading $FILE..."
@@ -31,12 +31,12 @@ fi
 #### Step 2
 echo "Step 2: Rename the LR images..."
 cd ../../codes/data_scripts
-python rename.py train
+python rename.py valid
 
 #### Step 4
 echo "Step 4: Crop to sub-images..."
-python extract_subimages.py train
+python extract_subimages.py valid
 
 #### Step 5
 echo "Step5: Create LMDB files..."
-python create_lmdb.py train
+python create_lmdb.py valid

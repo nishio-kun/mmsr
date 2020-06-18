@@ -14,7 +14,7 @@ import data.util as data_util  # noqa: E402
 import utils.util as util  # noqa: E402
 
 
-def main():
+def main(purpose):
     dataset = 'DIV2K_demo'  # vimeo90K | REDS | general (e.g., DIV2K, 291) | DIV2K_demo |test
     mode = 'GT'  # used for vimeo90k and REDS datasets
     # vimeo90k: GT | LR | flow
@@ -33,14 +33,14 @@ def main():
     elif dataset == 'DIV2K_demo':
         opt = {}
         ## GT
-        opt['img_folder'] = '../../datasets/DIV2K/DIV2K800_sub'
-        opt['lmdb_save_path'] = '../../datasets/DIV2K/DIV2K800_sub.lmdb'
-        opt['name'] = 'DIV2K800_sub_GT'
+        opt['img_folder'] = '../../datasets/DIV2K/DIV2K800_sub'if purpose == 'train' else '../../datasets/DIV2K/DIV2K800_sub_valid'
+        opt['lmdb_save_path'] = '../../datasets/DIV2K/DIV2K800_sub.lmdb' if purpose == 'train' else '../../datasets/DIV2K/DIV2K800_sub_valid.lmdb'
+        opt['name'] = 'DIV2K800_sub_GT' if purpose == 'train' else 'DIV2K800_sub_bicLRx4_valid'
         general_image_folder(opt)
         ## LR
-        opt['img_folder'] = '../../datasets/DIV2K/DIV2K800_sub_bicLRx4'
-        opt['lmdb_save_path'] = '../../datasets/DIV2K/DIV2K800_sub_bicLRx4.lmdb'
-        opt['name'] = 'DIV2K800_sub_bicLRx4'
+        opt['img_folder'] = '../../datasets/DIV2K/DIV2K800_sub_bicLRx4' if purpose == 'train' else '../../datasets/DIV2K/DIV2K800_sub_bicLRx4_valid'
+        opt['lmdb_save_path'] = '../../datasets/DIV2K/DIV2K800_sub_bicLRx4.lmdb' if purpose == 'train' else '../../datasets/DIV2K/DIV2K800_sub_bicLRx4_valid.lmdb'
+        opt['name'] = 'DIV2K800_sub_bicLRx4' if purpose == 'train' else 'DIV2K800_sub_bicLRx4_valid'
         general_image_folder(opt)
     elif dataset == 'test':
         test_lmdb('../../datasets/REDS/train_sharp_wval.lmdb', 'REDS')
@@ -408,4 +408,5 @@ def test_lmdb(dataroot, dataset='REDS'):
 
 
 if __name__ == "__main__":
-    main()
+    purpose = sys.argv[1]  # train or valid
+    main(purpose)

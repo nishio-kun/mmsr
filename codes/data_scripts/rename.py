@@ -1,9 +1,10 @@
 import os
+import sys
 import glob
 
 
-def main():
-    folder = '../../datasets/DIV2K/DIV2K_train_LR_bicubic/X4'
+def main(purpose):
+    folder = '../../datasets/DIV2K/DIV2K_{}_LR_bicubic/X4'.format(purpose)
     DIV2K(folder)
     print('Finished.')
 
@@ -16,4 +17,5 @@ def DIV2K(path):
 
 
 if __name__ == "__main__":
-    main()
+    purpose = sys.argv[1]  # train or valid
+    main(purpose)

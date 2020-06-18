@@ -11,7 +11,7 @@ from utils.util import ProgressBar  # noqa: E402
 import data.util as data_util  # noqa: E402
 
 
-def main():
+def main(purpose):
     mode = 'pair'  # single (one input folder) | pair (extract corresponding GT and LR pairs)
     opt = {}
     opt['n_thread'] = 20
@@ -19,17 +19,17 @@ def main():
     # CV_IMWRITE_PNG_COMPRESSION from 0 to 9. A higher value means a smaller size and longer
     # compression time. If read raw images during training, use 0 for faster IO speed.
     if mode == 'single':
-        opt['input_folder'] = '../../datasets/DIV2K/DIV2K_train_HR'
-        opt['save_folder'] = '../../datasets/DIV2K/DIV2K800_sub'
+        opt['input_folder'] = '../../datasets/DIV2K/DIV2K_{}_HR'.format(purpose)
+        opt['save_folder'] = '../../datasets/DIV2K/DIV2K800_sub' if purpose == 'train' else '../../datasets/DIV2K/DIV2K800_sub_valid'
         opt['crop_sz'] = 480  # the size of each sub-image
         opt['step'] = 240  # step of the sliding crop window
         opt['thres_sz'] = 48  # size threshold
         extract_signle(opt)
     elif mode == 'pair':
-        GT_folder = '../../datasets/DIV2K/DIV2K_train_HR'
-        LR_folder = '../../datasets/DIV2K/DIV2K_train_LR_bicubic/X4'
-        save_GT_folder = '../../datasets/DIV2K/DIV2K800_sub'
-        save_LR_folder = '../../datasets/DIV2K/DIV2K800_sub_bicLRx4'
+        GT_folder = '../../datasets/DIV2K/DIV2K_{}_HR'.format(purpose)
+        LR_folder = '../../datasets/DIV2K/DIV2K_{}_LR_bicubic/X4'.format(purpose)
+        save_GT_folder = '../../datasets/DIV2K/DIV2K800_sub' if purpose == 'train' else '../../datasets/DIV2K/DIV2K800_sub_valid'
+        save_LR_folder = '../../datasets/DIV2K/DIV2K800_sub_bicLRx4' if purpose == 'train' else '../../datasets/DIV2K/DIV2K800_sub_bicLRx4_valid'
         scale_ratio = 4
         crop_sz = 480  # the size of each sub-image (GT)
         step = 240  # step of the sliding crop window (GT)
@@ -138,4 +138,5 @@ def worker(path, opt):
 
 
 if __name__ == '__main__':
-    main()
+    purpose = sys.argv[1]  # train or valid
+    main(purpose)
