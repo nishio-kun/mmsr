@@ -24,6 +24,7 @@ RUN apt-get install -y --no-install-recommends \
   python-dev \
   python-pip \
   tk-dev \
+  unzip \
   vim \
   wget \
   xz-utils \
@@ -35,12 +36,6 @@ RUN git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT \
   && /usr/local/bin/python-build -v $PYTHON_VERSION $PYTHON_ROOT \
   && rm -rf $PYENV_ROOT
 
-# Install pytorch
-# RUN git clone --branch master --recursive https://github.com/pytorch/pytorch.git
-# WORKDIR /pytorch
-# RUN git submodule update --init --recursive
-
-WORKDIR /mmsr
 COPY codes/requirements.txt /mmsr/
 
 # Upgrade pip
@@ -48,3 +43,4 @@ RUN pip install --upgrade pip
 RUN pip install -r /mmsr/requirements.txt
 
 COPY . /mmsr
+WORKDIR /mmsr
